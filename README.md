@@ -1,4 +1,4 @@
-This repository contains various Dockerfiles and shell scripts for containerising Matters's services. **All files are under heavily devewlopment**, so we have not implemented any further optimization.
+This repository contains various Dockerfiles and shell scripts for containerising Matters's services. **All files are under heavily development**, so we have not implemented any further optimization.
 
 ## Overview ##
 

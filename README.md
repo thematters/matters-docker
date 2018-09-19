@@ -8,6 +8,7 @@ Here is the project structure:
 matters-docker
 │
 ├── README.md
+│
 ├── docker
 │   ├── base
 │   │   └── Dockerfile

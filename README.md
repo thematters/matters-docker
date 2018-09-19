@@ -30,9 +30,9 @@ matters-docker
 In `docker` folder, you should be able to find all Dockerfiles. Currently, the base image is `Ubuntu 16.04`. But there is no strong need to build every Docker image on top of Ubuntu. For exmaple, `IPFS` has it own official Docker image, and we should just fork it.
 
 #### Shell ####
-In `shell` folder, there are some useful scripts for building or starting docker. In the future, we wish to provide a command line tool that packs all scripts.
+In `shell` folder, there are some useful scripts for building images or starting container. In the future, we wish to provide a command line tool that packs all scripts. ：）
 
-## How to build ##
+## How to build image ##
 To build Docker image, you can run:
 
 ```
@@ -45,7 +45,7 @@ Or, run the script like this:
 sh shell/build-base.sh
 ```
 
-## How to run ##
+## How to run container ##
 To run Docker container, you can execute:
 
 ```

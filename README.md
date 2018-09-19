@@ -6,6 +6,7 @@ Here is the project structure:
 
 ```
 matters-docker
+│
 ├── README.md
 ├── docker
 │   ├── base
@@ -15,6 +16,7 @@ matters-docker
 │       │   └── Dockerfile
 │       └── prod
 │           └── Dockerfile
+│
 └── shell
     ├── build-base.sh
     ├── build-server-dev.sh

@@ -24,6 +24,7 @@ fi
 
 coloredEcho white 'Run server up for dev environment'
 docker run -d                                                                \
+           -p 8111:8111                                                      \
            -p 8888:8888                                                      \
            -e MATERIA_LOCALDEV=true                                          \
            -e MATERIA_DB_HOST=docker.for.mac.localhost                       \

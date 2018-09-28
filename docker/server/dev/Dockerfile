@@ -6,7 +6,7 @@ FROM matters:base
 RUN sudo apt-get install -y nginx                                                                       && \
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash                && \
     cat $HOME/.nvm/nvm.sh >> $HOME/.nvm/init.sh                                                         && \
-    echo 'nvm install 10.10.0; nvm use 10.10.0; nvm alias default 10.10.0' >> $HOME/.nvm/init.sh        && \
+    echo 'nvm install 8.4.0; nvm use 8.4.0; nvm alias default 8.4.0' >> $HOME/.nvm/init.sh              && \
     echo 'npm install -g pm2@3.1.2' >> $HOME/.nvm/init.sh                                               && \
     sh $HOME/.nvm/init.sh                                                                               && \
     rm $HOME/.nvm/init.sh                                                                               && \

@@ -38,6 +38,15 @@ Also, I don't think we need to create Dockerfile for Stage. Stage and Production
 #### Shell ####
 In `shell` folder, there are some useful scripts for building images or starting containers. In the future, we wish to provide a command line tool that packs all scripts. ：）
 
+## Available images ##
+Here is a list of images:
+
+```
+matters:base
+matters-server:dev
+matters-mms:stage
+```
+
 ## How to build image ##
 To build Docker image, you can run:
 

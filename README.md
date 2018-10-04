@@ -12,6 +12,8 @@ matters-docker
 ├── docker
 │   ├── base
 │   │   └── Dockerfile
+│   ├── mms
+│   │   └── Dockerfile
 │   └── server
 │       ├── dev
 │       │   └── Dockerfile
@@ -47,7 +49,7 @@ Or, run the script like this:
 sh shell/build-base.sh
 ```
 
-## How to run container ##
+## How to run container up ##
 To run Docker container, you can execute:
 
 ```

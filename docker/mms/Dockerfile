@@ -3,7 +3,8 @@
 
 FROM matters:base
 
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash                && \
+RUN sudo apt-get update; sudo apt-get install -y git                                                    && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash                && \
     cat $HOME/.nvm/nvm.sh >> $HOME/.nvm/init.sh                                                         && \
     echo 'nvm install 8.4.0; nvm use 8.4.0; nvm alias default 8.4.0' >> $HOME/.nvm/init.sh              && \
     sh $HOME/.nvm/init.sh                                                                               && \

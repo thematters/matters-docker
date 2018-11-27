@@ -26,8 +26,8 @@ coloredEcho white 'Run Postgres up for dev environment'
 docker run -d                                                                \
            -v $MOUNT_VOLUME/:/var/lib/postgresql/data                        \
            -p 5432:5432                                                      \
-           -e POSTGRES_DB=matters                                            \
-           -e POSTGRES_USER=matters                                          \
-           -e POSTGRES_PASSWORD=matters                                      \
+           -e POSTGRES_DB=matters-dev                                        \
+           -e POSTGRES_USER=matters-dev                                      \
+           -e POSTGRES_PASSWORD=matters-dev                                  \
            --name postgres                                                   \
            postgres:latest

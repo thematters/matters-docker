@@ -22,7 +22,7 @@ matters-docker
 │
 └── shell
     ├── build-base.sh
-    ├── build-mms-stage.sh    
+    ├── build-mms-stage.sh
     ├── build-server-dev.sh
     ├── start-mms-stage.sh
     ├── start-server-dev.sh

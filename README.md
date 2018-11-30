@@ -22,10 +22,9 @@ matters-docker
 │
 └── shell
     ├── build-base.sh
-    ├── build-mms-stage.sh    
-    ├── build-server-dev.sh
-    ├── start-mms-stage.sh
-    ├── start-server-dev.sh
+    ├── build-mms.sh
+    ├── start-mms.sh
+    ├── start-postgres.sh
     └── util.sh
 
 ```
@@ -70,7 +69,7 @@ docker run -d -p [port:port] -e [env-var] [docker-image-name]
 Or, run the script like this:
 
 ```
-sh shell/start-server-dev.sh
+sh shell/start-postgres.sh
 ```
 
 ## Note ##

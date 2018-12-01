@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  drone:
+    image: drone/drone:1.0.0-rc.1
+    volumes:
+      - /root/.docker/config.json:/root/.docker/config.json
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/drone:/data
+    environment:
+      - DRONE_GITHUB_SERVER=https://github.com
+      - DRONE_GITHUB_CLIENT_ID=
+      - DRONE_GITHUB_CLIENT_SECRET=
+      - DRONE_SERVER_HOST=ci-server.matters.one
+      - DRONE_SERVER_PROTO=http
+      - DRONE_RPC_SECRET=correct-horse-batter-staple
+      - DRONE_RUNNER_CAPACITY=2
+    ports:
+      - "80:80"
+    restart: always

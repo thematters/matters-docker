@@ -22,3 +22,10 @@
 * list the existing swarm nodes:
   * `ssh master`
   * `docker node ls` 
+
+## Start ElasticSearch cluster on local environment
+
+* `ssh master`
+* `cd ~/elasticsearch`
+* `docker stack deploy -c docker-compose.yml es`
+* `curl http://192.168.50.10:9200/_cluster/state?pretty` to check cluster status

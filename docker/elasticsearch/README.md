@@ -2,19 +2,23 @@
 
 ## Setup docker swarm on local environment
 
-* make sure you have `docker` and `virtualbox` installed
-* create 3 docker machines to run the swarm nodes:
-  * `docker-machine create -d virtualbox master`
-  * `docker-machine create -d virtualbox worker1`
-  * `docker-machine create -d virtualbox worker2`
+* make sure you `Ansible`, `Vagrant` and `Virtualbox` installed
+* create 2 virtual machines to run the swarm nodes:
+  * `vagrant up`, then wait for the 2 nodes to be ready
+  * `vagrant ssh-config >> ~/.ssh/config
+  * try `ssh master` and `ssh worker` to check if you can successfully ssh into the nodes
+  * install pythons on the nodes with `sudo apt install python-minimal`
+  * set `vm.max_map_count` to `262144` on the nodes:
+    * `sudo sysctl -w vm.max_map_count=262144`
+    * append `vm.max_map_count=262144` at the end of `/etc/sysctl.conf`
+  * install docker on the nodes with `ansible-playbook -i hosts.example playbook.yml` 
 * init docker swarm manager:
-  * `eval $(docker-machine env master)`
-  * `docker swarm init --advertise-addr=$(docker-machine ip master)`
+  * `ssh master`
+  * `docker swarm init --advertise-addr=192.168.50.10`
   * copy the `docker swarm join --token SOME_TOKEN_STRING` command from the output for later usage
 * join the workers to the swarm:
-  * `eval $(docker-machine env worker1)`
+  * `ssh worker`
   * paste the command you copied from eariler
-  * repeat the above two steps for worker2
 * list the existing swarm nodes:
-  * using the manager node: `eval $(docker-machine env master)`
+  * `ssh master`
   * `docker node ls` 

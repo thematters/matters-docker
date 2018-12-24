@@ -29,3 +29,34 @@
 * `cd ~/elasticsearch`
 * `docker stack deploy -c docker-compose.yml es`
 * `curl http://192.168.50.10:9200/_cluster/state?pretty` to check cluster status
+
+## Deploy ElasticSearch cluster on EC2 instances
+
+* create EC2 instances as elasticsearch nodes
+* add the following inbound roles to EC2 security group
+  * Custom TCP Rule	TCP	 2377  swarm + remote mgmt
+  * Custom TCP Rule	TCP	 7946	 swarm
+  * Custom UDP Rule	UDP	 7946	 swarm
+  * Custom UDP Rule	UDP	 4789	 swarm
+  * Custom Protocol	50	 all	 swarm
+* connect to VPN so that you can communicate with the EC2 instances on your local machine
+* `cp hosts.example hosts`
+* update `hosts` so that ansible can deploy ElasticSearch cluster to correct EC2 instances
+* install docker on the nodes with `ansible-playbook -i hosts playbook.yml` 
+* init docker swarm manager:
+  * ssh EC2 master node
+  * `docker swarm init --advertise-addr={{PRIVATE_IP}}`
+  * copy the `docker swarm join --token SOME_TOKEN_STRING` command from the output for later usage
+* join the workers to the swarm:
+  * ssh EC2 worker node
+  * paste the command you copied from eariler
+* list the existing swarm nodes:
+  * `ssh master`
+  * `docker node ls` 
+
+## Start ElasticSearch cluster on EC2 instances
+
+* ssh EC2 worker node
+* `cd ~/elasticsearch`
+* `docker stack deploy -c docker-compose.yml es`
+* `curl http://{{PRIVATE_IP}}:9200/_cluster/state?pretty` to check cluster status

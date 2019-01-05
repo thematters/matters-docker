@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# --- Configuration variables ---
+GUI = false
+RAM = 6144
+
+# Network configuration
+DOMAIN = ".es.matters.news"
+NETWORK = "192.168.50."
+NETMASK = "255.255.255.0"
+
+BOX = 'ubuntu/xenial64'
+
+HOSTS = {
+    "master" => [NETWORK+"10", RAM, GUI, BOX],
+    "worker" => [NETWORK+"11", RAM, GUI, BOX],
+}
+
+# ---- Vagrant configuration -----
+
+Vagrant.require_version ">= 1.7.4"
+
+Vagrant.configure(2) do |config|
+
+  HOSTS.each do | (name, cfg) |
+    ipaddr, ram, gui, box = cfg
+
+    config.vm.define name do |machine|
+      machine.vm.box = box
+      # Configure general VM options
+
+      config.vm.provider "virtualbox" do |vb|
+        vb.gui = gui
+        vb.memory = ram
+        vb.name = name
+      end
+
+      machine.vm.hostname = name + DOMAIN
+      machine.vm.network 'private_network', ip: ipaddr, netmask: NETMASK
+    end
+  end
+
+end

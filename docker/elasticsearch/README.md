@@ -56,7 +56,7 @@
 
 ## Start ElasticSearch cluster on EC2 instances
 
-* ssh EC2 worker node
+* ssh EC2 master node
 * `cd ~/elasticsearch`
 * `docker stack deploy -c docker-compose.yml es`
 * `curl http://{{PRIVATE_IP}}:9200/_cluster/state?pretty` to check cluster status

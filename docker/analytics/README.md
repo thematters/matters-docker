@@ -1,14 +1,15 @@
 ## Preparation
 
 1. Install Docker
-2. Create a local directory to store your notebooks `YOUR_WORK_DIRECTORY`
-3. Prepare your AWS Access Key ID and Secret Access Key. They may look like `ABCDEFGHIJKLML` and `pq/wxyz1234wxyz1234wxyz1234`.
+2. Pull the image: `docker pull matterslab/analytics` 
+3. Create a local directory to store your notebooks `YOUR_WORK_DIRECTORY`
+4. Prepare your AWS Access Key ID and Secret Access Key. They may look like `ABCDEFGHIJKLML` and `pq/wxyz1234wxyz1234wxyz1234`.
 
 ## Starting the notebook
 
 Run in a console:
 ```bash
-docker run --rm -p 8888:8888 -v YOUR_WORK_DIRECTORY:/home/jovyan/work  -e "AWS_ACCESS_KEY_ID=ABCDEFGHIJKLML" -e "AWS_SECRET_ACCESS_KEY=pq/wxyz1234wxyz1234wxyz1234" -t -i matters-analytics
+docker run --rm -p 8888:8888 -v YOUR_WORK_DIRECTORY:/home/jovyan/work  -e "AWS_ACCESS_KEY_ID=ABCDEFGHIJKLML" -e "AWS_SECRET_ACCESS_KEY=pq/wxyz1234wxyz1234wxyz1234" -t -i matterslab/analytics
 ```
 Yes, the `/home/jovyan/work` path is fixed and just leave it as is. Replace `YOUR_WORK_DIRECTORY`, `ABCDEFGHIJKLML`, and `pq/wxyz1234wxyz1234wxyz1234` with your values.
 

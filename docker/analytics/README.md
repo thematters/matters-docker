@@ -23,6 +23,6 @@ Press `Ctrl+C` in the console then `y`. This will stop the notebook server, the 
 
 To start an jupyter container, you could also use `shell/start-jupyter.sh` like this:
 ```
-sh shell/start-jupyter.sh
+sh matters-docker/shell/start-jupyter.sh
 ```
 And in this case, the container is running in daemon mode.

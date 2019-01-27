@@ -3,7 +3,9 @@
 import logging
 import os
 import subprocess
+
 from datetime import datetime
+from urllib import request
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 log_path = os.path.join(dir_path, 'logs')
@@ -24,10 +26,9 @@ logger = logging.getLogger(__name__)
 
 def add_cluster_pin(cid):
     logger.info('pining: %s' % cid)
-    subprocess.check_output([
-        'docker-compose', 'exec', '-T', 'cluster', 'ipfs-cluster-ctl', 'pin', 'add',
-        cid
-    ])
+    q = request.Request('http://localhost:9095/api/v0/pin/add?arg=%s' % cid)
+    result = request.urlopen(q).read()
+    logger.info(result)
 
 
 def get_daemon_cids():
@@ -37,8 +38,10 @@ def get_daemon_cids():
 
 
 def get_cluster_cids():
-    output = subprocess.check_output(
-        ['docker-compose', 'exec', '-T', 'cluster', 'ipfs-cluster-ctl', 'pin', 'ls'])
+    output = subprocess.check_output([
+        'docker-compose', 'exec', '-T', 'cluster', 'ipfs-cluster-ctl', 'pin',
+        'ls'
+    ])
     return [l.split()[0] for l in output.decode('utf-8').splitlines()]
 
 

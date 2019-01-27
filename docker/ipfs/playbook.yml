@@ -18,7 +18,7 @@
     become: yes
     become_user: root
     apt:
-      name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'docker-ce', 'docker-compose']
+      name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'docker-ce', 'docker-compose', 'python3', 'python3-pip']
       state: present
       update_cache: yes
   
@@ -37,7 +37,15 @@
       src: '{{ playbook_dir }}/'
       dest: '{{ base_dir }}'
       rsync_opts:
-        - "--exclude=.git"
-        - "--exclude=.travis.yml"
-        - "--exclude=.vagrant"
-        - "--exclude=docker/.vagrant"
+        - '--exclude=.git'
+        - '--exclude=.travis.yml'
+        - '--exclude=.vagrant'
+        - '--exclude=docker/.vagrant'
+        - '--exclude=venv'
+        - '--exclude=logs'
+
+  - name: Create a cron job to synchronize ipfs cluster
+    cron:
+      name: 'sync ipfs'
+      minute: '0'
+      job: 'cd {{ base_dir }} && python3 sync_ipfs_cluster.py > /tmp/cron.log 2>&1'

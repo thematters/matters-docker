@@ -7,6 +7,7 @@ services:
       - /data/ipfs-cluster:/data/ipfs-cluster
     env_file: .env
     ports:
+      - 9094:9094
       - 9095:9095
       - 9096:9096
     restart: always

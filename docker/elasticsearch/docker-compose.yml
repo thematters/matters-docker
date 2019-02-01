@@ -1,7 +1,7 @@
 version: '3.3'  
 services:  
   elasticsearch:
-    image: 'matters/elasticsearch:latest'
+    image: 'matterslab/elasticsearch:latest'
     build:
       context: ./
       dockerfile: ./Dockerfile

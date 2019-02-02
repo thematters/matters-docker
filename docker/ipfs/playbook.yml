@@ -44,6 +44,10 @@
         - '--exclude=venv'
         - '--exclude=logs'
 
+- hosts: masters
+  vars:
+    base_dir: "/home/ubuntu/ipfs"
+  tasks:
   - name: Create a cron job to synchronize ipfs cluster
     cron:
       name: 'sync ipfs'

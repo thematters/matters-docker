@@ -25,24 +25,43 @@ logger = logging.getLogger(__name__)
 
 
 def add_cluster_pin(cid):
-    logger.info('pining: %s' % cid)
-    q = request.Request('http://localhost:9095/api/v0/pin/add?arg=%s' % cid)
-    result = request.urlopen(q).read()
-    logger.info(result)
+    logger.info('found: %s' % cid)
+    pin_cid, pin_type = cid.split('-')
+    if pin_type == 'recursive':
+        logger.info('pining: %s' % cid)
+        q = request.Request(
+            'http://localhost:9095/api/v0/pin/add?arg=%s&recursive=true' %
+            pin_cid)
+        result = request.urlopen(q).read()
+        logger.info(result)
+    if pin_type in ('direct', 'indirect',):
+        logger.info('pining: %s' % cid)
+        q = request.Request(
+            'http://localhost:9095/api/v0/pin/add?arg=%s&recursive=false' %
+            pin_cid)
+        result = request.urlopen(q).read()
+        logger.info(result)
 
 
 def get_daemon_cids():
+    """return list of CIDs with pin types"""
     output = subprocess.check_output(
         ['docker-compose', 'exec', '-T', 'daemon', 'ipfs', 'pin', 'ls'])
-    return [l.split()[0] for l in output.decode('utf-8').splitlines()]
+    return [
+        '-'.join(l.split()[0:2]) for l in output.decode('utf-8').splitlines()
+    ]
 
 
 def get_cluster_cids():
+    """return list of CIDs with pin types"""
     output = subprocess.check_output([
         'docker-compose', 'exec', '-T', 'cluster', 'ipfs-cluster-ctl', 'pin',
         'ls'
     ])
-    return [l.split()[0] for l in output.decode('utf-8').splitlines()]
+    return [
+        '-'.join([l.split()[0], l.split()[-1].lower()])
+        for l in output.decode('utf-8').splitlines()
+    ]
 
 
 if __name__ == '__main__':
@@ -53,4 +72,4 @@ if __name__ == '__main__':
     for cid in cids:
         add_cluster_pin(cid)
 
-    logger.info('==DONE==')
+    logger.info('==DONE: %d pins==' % len(cids))

@@ -5,20 +5,24 @@
 * create at least 2 ubuntu EC2 instances
 * `sudo apt install python-minimal` on the instances 
 * copy `hosts.example` to `hosts`, and update hosts information according to the instances
+* copy `.env.example` to `.env`, replace `CLUSTER_SECRET` with the output from the following commend:
+  * `od -vN 32 -An -tx1 /dev/urandom | tr -d ' \n'; echo`
 * run `ansible-playbook -i hosts playbook.yml` to install docker and upload files to EC2 instances
 
 ## Launch IPFS Cluster
 
 * `ssh` to all master (leader) and worker nodes:
   * `cd ~/ipfs`
-  * `docker-compose up` (run `docker-compose up -d` in `daemon` mode)
+  * `docker-compose up` (in order to populate `service.json` on each node)
 * on master node:
   * copy the line `/ip4/127.0.0.1/tcp/9096/ipfs/<LEADER_NODE_HASH>`
   * replace the IP of above to `/ip4/<LEADER_NODE_IP>/tcp/9096/ipfs/<LEADER_NODE_HASH>`
+  * `docker-compose down`
+  * `docker-compose up -d` (`-d` for `daemon` mode)
 * on worker nodes:
   * `cd ~/ipfs`
   * `docker-compose down`
-  * `docker-compose exec cluster daemon --bootstrap /ip4/<LEADER_NODE_IP>/tcp/9096/ipfs/<LEADER_NODE_HASH>`
+  * `docker-compose run cluster daemon --bootstrap /ip4/<LEADER_NODE_IP>/tcp/9096/ipfs/<LEADER_NODE_HASH>`
   * ignore the warnings about port 5001 refused 
   * once you see the cluster peers in the output, ctrl-c to quit
   * `docker-compose up` again; (run `docker-compose up -d` in `daemon` mode)

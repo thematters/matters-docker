@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  openvpn:
+    image: kylemanna/openvpn
+    volumes:
+      - '/home/ubuntu/ovpn-data:/etc/openvpn'
+    ports:
+      - 14418:1194
+    privileged: true

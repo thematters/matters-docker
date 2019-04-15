@@ -17,6 +17,18 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
             "filter": ["by_tfr", "by_sfr"],
             "char_filter": ["by_cfr", "stconvert"]
           },
+          "by_smart_syn": {
+            "type": "custom",
+            "tokenizer": "ik_smart",
+            "filter": ["by_tfr", "by_sfr"],
+            "char_filter": ["by_cfr"]
+          },
+          "by_max_word_syn": {
+            "type": "custom",
+            "tokenizer": "ik_max_word",
+            "filter": ["by_tfr", "by_sfr"],
+            "char_filter": ["by_cfr"]
+          },
           "stconvert": {
             "tokenizer": "stconvert"
   	  }
@@ -39,10 +51,10 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
             "synonyms_path": "synonyms.txt"
           },
           "s2t_convert": {
-            "type":"stconvert",
-            "delimiter":"#",
-            "keep_both":true,
-            "convert_type":"s2t"
+            "type": "stconvert",
+            "delimiter": "#",
+            "keep_both": true,
+            "convert_type": "s2t"
           }
         },
         "char_filter": {
@@ -63,9 +75,14 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
       "properties": {
         "title": {
           "type": "text",
-          "index": "analyzed",
           "analyzer": "by_max_word",
-          "search_analyzer": "by_smart"
+          "search_analyzer": "by_smart",
+          "fields": {
+            "synonym": {
+              "type": "text",
+              "analyzer": "by_max_word_syn"
+            }
+          }
         }
       }     
     }  
@@ -115,7 +132,16 @@ echo
 # search synonyms
 curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 {
-    "query" : { "match" : { "title" : "tomato" }},
+    "query": { 
+      "multi_match" : { 
+        "query": "tomato",
+        "fields": [
+          "title",
+          "title.synonym"
+        ],
+        "type": "most_fields"
+      }
+    },
     "highlight" : {
         "pre_tags" : ["<tag1>", "<tag2>"],
         "post_tags" : ["</tag1>", "</tag2>"],
@@ -128,7 +154,16 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 echo
 curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 {
-    "query" : { "match" : { "title" : "马铃薯" }},
+    "query": { 
+      "multi_match" : { 
+        "query": "马铃薯",
+        "fields": [
+          "title",
+          "title.synonym"
+        ],
+        "type": "most_fields"
+      }
+    },
     "highlight" : {
         "pre_tags" : ["<tag1>", "<tag2>"],
         "post_tags" : ["</tag1>", "</tag2>"],
@@ -143,7 +178,16 @@ echo
 # search stconvert
 curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 {
-    "query" : { "match" : { "title" : "國際" }},
+    "query": { 
+      "multi_match" : { 
+        "query": "國際",
+        "fields": [
+          "title",
+          "title.synonym"
+        ],
+        "type": "most_fields"
+      }
+    },
     "highlight" : {
         "pre_tags" : ["<tag1>", "<tag2>"],
         "post_tags" : ["</tag1>", "</tag2>"],

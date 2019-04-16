@@ -60,3 +60,12 @@
 * `cd ~/elasticsearch`
 * `docker stack deploy -c docker-compose.yml es`
 * `curl http://{{PRIVATE_IP}}:9200/_cluster/state?pretty` to check cluster status
+
+## Update ElasticSearch synonyms
+
+* Add to `synonyms/synonyms.txt directly` in the format of `川普,特朗普`
+* Run `docker-compose build`
+* Run `docker push matterslab/elasticsearch:latest`
+* Redeploy the ElasticSearch cluster following the deployment instructions
+
+

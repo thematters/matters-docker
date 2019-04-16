@@ -134,7 +134,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 {
     "query": { 
       "multi_match" : { 
-        "query": "tomato",
+        "query": "西红柿",
         "fields": [
           "title",
           "title.synonym"

@@ -1,4 +1,4 @@
-# create index and mappings
+echo 'create index and mappings'
 curl -XPUT 'http://127.0.0.1:9200/article' -d' 
 {
   "settings": {
@@ -73,6 +73,9 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
   "mappings": {
     "article": {
       "properties": {
+        "username": {
+          "type": "completion"
+        }, 
         "title": {
           "type": "text",
           "analyzer": "by_max_word",
@@ -90,11 +93,11 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
 }'
 echo 
 
-# get mappings
+echo 'get mappings'
 curl -XGET 'http://127.0.0.1:9200/article/_mappings/?pretty'
 echo
 
-# test s2t analyzer
+echo 'test s2t analyzer'
 curl -XGET 'http://127.0.0.1:9200/article/_analyze' -d'
 {
   "tokenizer" : "keyword",
@@ -104,10 +107,10 @@ curl -XGET 'http://127.0.0.1:9200/article/_analyze' -d'
 }'
 echo 
 
-# test synonyms
+echo 'test synonyms'
 curl -XGET 'http://127.0.0.1:9200/article/_analyze?pretty=true&analyzer=by_smart' -d '{"text":"番茄"}'
 
-# add test data for synonyms
+echo 'add test data for synonyms'
 curl -XPOST 'http://127.0.0.1:9200/article/article/1' -d'{"title":"我有一個西紅柿"}'
 echo
 curl -XPOST 'http://127.0.0.1:9200/article/article/2' -d'{"title":"番茄炒蛋饭"}'
@@ -117,19 +120,19 @@ echo
 curl -XPOST 'http://127.0.0.1:9200/article/article/4' -d'{"title":"酸辣土豆丝"}'
 echo
 
-# add test data for stconvert
-curl -XPOST 'http://127.0.0.1:9200/article/article/5' -d'{"title":"国际组织"}'
+echo 'add test data for stconvert'
+curl -XPOST 'http://127.0.0.1:9200/article/article/5' -d'{"title":"国际组织", "username": "charlie"}'
 echo
 curl -XPOST 'http://127.0.0.1:9200/article/article/6' -d'{"title":"粵劇衝出國際聲援無處說話？"}'
 echo
 
 sleep 3
 
-# search all
+echo 'search all'
 curl -s -XGET 'http://127.0.0.1:9200/article/_search/?pretty'
 echo
 
-# search synonyms
+echo 'search synonyms'
 curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 {
     "query": { 
@@ -175,7 +178,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 '
 echo
 
-# search stconvert
+echo 'search stconvert'
 curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 {
     "query": { 
@@ -207,6 +210,21 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
         "fields" : {
             "title" : {}
         }
+    }
+}
+'
+echo
+
+echo 'test completion'
+curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+{
+    "suggest" : { 
+      "username_suggest" : { 
+        "prefix": "cha",
+        "completion" : {
+           "field": "username"
+        }
+      }
     }
 }
 '

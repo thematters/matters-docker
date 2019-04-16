@@ -25,6 +25,11 @@ RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-stconvert/release
 RUN unzip elasticsearch-analysis-stconvert-5.4.0.zip -d elasticsearch-analysis-stconvert
 RUN mv elasticsearch-analysis-stconvert /elasticsearch-5.4.0/plugins
 
+# ========= install elasticsearch-analysis-pinyin
+RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v5.4.0/elasticsearch-analysis-pinyin-5.4.0.zip
+RUN unzip elasticsearch-analysis-pinyin-5.4.0.zip -d elasticsearch-analysis-pinyin
+RUN mv elasticsearch-analysis-pinyin /elasticsearch-5.4.0/plugins
+
 # ========= copy synonyms.txt ==============
 COPY synonyms/synonyms.txt /elasticsearch-5.4.0/config/synonyms.txt
 

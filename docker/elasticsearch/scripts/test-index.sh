@@ -29,6 +29,10 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
             "filter": ["by_tfr", "by_sfr"],
             "char_filter": ["by_cfr"]
           },
+          "pinyin": {
+            "tokenizer" : "keyword", 
+            "filter": ["pinyin_filter","lowercase"]
+          }, 
           "stconvert": {
             "tokenizer": "stconvert"
   	  }
@@ -50,6 +54,9 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
             "type": "synonym",
             "synonyms_path": "synonyms.txt"
           },
+          "pinyin_filter": {
+            "type" : "pinyin"
+          }, 
           "s2t_convert": {
             "type": "stconvert",
             "delimiter": "#",
@@ -76,6 +83,10 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
         "username": {
           "type": "completion"
         }, 
+        "name": {
+          "type": "text",
+          "analyzer": "pinyin"
+        },
         "title": {
           "type": "text",
           "analyzer": "by_max_word",
@@ -117,7 +128,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/article/2' -d'{"title":"番茄炒蛋�
 echo
 curl -XPOST 'http://127.0.0.1:9200/article/article/3' -d'{"title":"西紅柿雞蛋麵"}'
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/article/4' -d'{"title":"酸辣土豆丝"}'
+curl -XPOST 'http://127.0.0.1:9200/article/article/4' -d'{"title":"酸辣土豆丝", "name": "張連麗"}'
 echo
 
 echo 'add test data for stconvert'
@@ -225,6 +236,34 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
            "field": "username"
         }
       }
+    }
+}
+'
+echo
+
+echo 'test pinyin'
+curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+{
+    "query" : { "match" : { "name" : "zhanglianli" }},
+    "highlight" : {
+        "pre_tags" : ["<tag1>", "<tag2>"],
+        "post_tags" : ["</tag1>", "</tag2>"],
+        "fields" : {
+            "title" : {}
+        }
+    }
+}
+'
+echo
+curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+{
+    "query" : { "match" : { "name" : "zll" }},
+    "highlight" : {
+        "pre_tags" : ["<tag1>", "<tag2>"],
+        "post_tags" : ["</tag1>", "</tag2>"],
+        "fields" : {
+            "title" : {}
+        }
     }
 }
 '

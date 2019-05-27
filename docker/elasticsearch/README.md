@@ -63,7 +63,7 @@
 
 ## Update ElasticSearch synonyms
 
-* Add to `synonyms/synonyms.txt directly` in the format of `川普,特朗普`
+* Add to `synonyms/synonyms.txt` directly in the format of `川普,特朗普`
 * Run `docker-compose build`
 * Run `docker push matterslab/elasticsearch:latest`
 * Redeploy the ElasticSearch cluster following the deployment instructions

@@ -44,12 +44,12 @@
         - '--exclude=venv'
         - '--exclude=logs'
 
-- hosts: masters
-  vars:
-    base_dir: "/home/ubuntu/ipfs"
-  tasks:
-  - name: Create a cron job to synchronize ipfs cluster
-    cron:
-      name: 'sync ipfs'
-      minute: '0'
-      job: 'cd {{ base_dir }} && python3 sync_ipfs_cluster.py > /tmp/cron.log 2>&1'
+# - hosts: masters
+#   vars:
+#     base_dir: "/home/ubuntu/ipfs"
+#   tasks:
+#   - name: Create a cron job to synchronize ipfs cluster
+#     cron:
+#       name: 'sync ipfs'
+#       minute: '0'
+#       job: 'cd {{ base_dir }} && python3 sync_ipfs_cluster.py > /tmp/cron.log 2>&1'

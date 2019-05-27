@@ -39,3 +39,4 @@
 
 * when run IPFS in cluster mode, the HTTP API port should be changed from `5001` to `9095`
 * need to use `ipfs-cluster-ctl pin add` or `curl <IP>:9095/api/v0/add/pin` to move exists objects to cluster pinset
+* Once setup, on the gateway node, do `ipfs bootstrap add /ip4/13.228.12.125/tcp/4001/ipfs/Qmeg7J9S2EsXwPKLrSz5QeirGLmToWDHhj6EPmUvquKb5k`

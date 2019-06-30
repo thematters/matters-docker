@@ -1,5 +1,7 @@
+es_host='192.168.99.101'
+
 echo 'create index and mappings'
-curl -XPUT 'http://127.0.0.1:9200/article' -d' 
+curl -XPUT "http://${es_host}:9200/article" -d' 
 {
   "settings": {
     "index": {
@@ -84,7 +86,7 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
           "type": "completion"
         }, 
         "name": {
-          "type": "text",
+          "type": "completion",
           "analyzer": "pinyin"
         },
         "title": {
@@ -105,11 +107,11 @@ curl -XPUT 'http://127.0.0.1:9200/article' -d'
 echo 
 
 echo 'get mappings'
-curl -XGET 'http://127.0.0.1:9200/article/_mappings/?pretty'
+curl -XGET "http://${es_host}:9200/article/_mappings/?pretty"
 echo
 
 echo 'test s2t analyzer'
-curl -XGET 'http://127.0.0.1:9200/article/_analyze' -d'
+curl -XGET "http://${es_host}:9200/article/_analyze" -d'
 {
   "tokenizer" : "keyword",
   "filter" : ["lowercase"],
@@ -119,32 +121,32 @@ curl -XGET 'http://127.0.0.1:9200/article/_analyze' -d'
 echo 
 
 echo 'test synonyms'
-curl -XGET 'http://127.0.0.1:9200/article/_analyze?pretty=true&analyzer=by_smart' -d '{"text":"番茄"}'
+curl -XGET "http://${es_host}:9200/article/_analyze?pretty=true&analyzer=by_smart" -d '{"text":"番茄"}'
 
 echo 'add test data for synonyms'
-curl -XPOST 'http://127.0.0.1:9200/article/article/1' -d'{"title":"我有一個西紅柿"}'
+curl -XPOST "http://${es_host}:9200/article/article/1" -d'{"title":"我有一個西紅柿"}'
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/article/2' -d'{"title":"番茄炒蛋饭"}'
+curl -XPOST "http://${es_host}:9200/article/article/2" -d'{"title":"番茄炒蛋饭"}'
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/article/3' -d'{"title":"西紅柿雞蛋麵"}'
+curl -XPOST "http://${es_host}:9200/article/article/3" -d'{"title":"西紅柿雞蛋麵"}'
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/article/4' -d'{"title":"酸辣土豆丝", "name": "張連麗"}'
+curl -XPOST "http://${es_host}:9200/article/article/4" -d'{"title":"酸辣土豆丝", "name": "張連麗"}'
 echo
 
 echo 'add test data for stconvert'
-curl -XPOST 'http://127.0.0.1:9200/article/article/5' -d'{"title":"国际组织", "username": "charlie"}'
+curl -XPOST "http://${es_host}:9200/article/article/5" -d'{"title":"国际组织", "username": "charlie"}'
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/article/6' -d'{"title":"粵劇衝出國際聲援無處說話？"}'
+curl -XPOST "http://${es_host}:9200/article/article/6" -d'{"title":"粵劇衝出國際聲援無處說話？"}'
 echo
 
 sleep 3
 
 echo 'search all'
-curl -s -XGET 'http://127.0.0.1:9200/article/_search/?pretty'
+curl -s -XGET "http://${es_host}:9200/article/_search/?pretty"
 echo
 
 echo 'search synonyms'
-curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
     "query": { 
       "multi_match" : { 
@@ -166,7 +168,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 }
 '
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
     "query": { 
       "multi_match" : { 
@@ -190,7 +192,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 echo
 
 echo 'search stconvert'
-curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
     "query": { 
       "multi_match" : { 
@@ -212,7 +214,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 }
 '
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
     "query" : { "match" : { "title" : "说话" }},
     "highlight" : {
@@ -227,7 +229,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 echo
 
 echo 'test completion'
-curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
     "suggest" : { 
       "username_suggest" : { 
@@ -242,7 +244,7 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 echo
 
 echo 'test pinyin'
-curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
     "query" : { "match" : { "name" : "zhanglianli" }},
     "highlight" : {
@@ -254,8 +256,38 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
     }
 }
 '
+
+echo 'test pinyin and completion'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
+{
+    "query" : { "match" : { "name" : "zhanglianli" }},
+    "suggest" : { 
+      "username_suggest" : { 
+        "prefix": "cha",
+        "completion" : {
+           "field": "username"
+        }
+      },
+      "name_suggest" : {
+        "prefix": "zhang",
+        "completion" : {
+           "field": "name"
+        }
+      }
+    },
+    "highlight" : {
+        "pre_tags" : ["<tag1>", "<tag2>"],
+        "post_tags" : ["</tag1>", "</tag2>"],
+        "fields" : {
+            "title" : {}
+        }
+    }
+}
+'
+
+
 echo
-curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
     "query" : { "match" : { "name" : "zll" }},
     "highlight" : {
@@ -270,5 +302,5 @@ curl -XPOST 'http://127.0.0.1:9200/article/_search?pretty'  -d'
 echo
 
 # delete index
-curl -XDELETE 'http://127.0.0.1:9200/article'
+curl -XDELETE "http://${es_host}:9200/article"
 echo

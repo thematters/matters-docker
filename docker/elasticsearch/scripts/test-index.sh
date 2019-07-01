@@ -32,8 +32,7 @@ curl -XPUT "http://${es_host}:9200/article" -d'
             "char_filter": ["by_cfr"]
           },
           "pinyin": {
-            "tokenizer" : "keyword", 
-            "filter": ["pinyin_filter","lowercase"]
+            "tokenizer" : "pinyin_tokenizer"
           }, 
           "stconvert": {
             "tokenizer": "stconvert"
@@ -45,7 +44,17 @@ curl -XPUT "http://${es_host}:9200/article" -d'
             "delimiter" : "#",
             "keep_both" : true,
             "convert_type" : "s2t"
-          }
+          },
+          "pinyin_tokenizer": {
+            "type" : "pinyin",
+            "keep_first_letter": false,
+            "keep_separate_first_letter" : false,
+            "keep_full_pinyin" : true,
+            "keep_original" : true,
+            "limit_first_letter_length" : 16,
+            "lowercase" : true,
+            "remove_duplicated_term" : true
+          } 
         },
         "filter": {
           "by_tfr": {
@@ -56,9 +65,6 @@ curl -XPUT "http://${es_host}:9200/article" -d'
             "type": "synonym",
             "synonyms_path": "synonyms.txt"
           },
-          "pinyin_filter": {
-            "type" : "pinyin"
-          }, 
           "s2t_convert": {
             "type": "stconvert",
             "delimiter": "#",
@@ -137,6 +143,18 @@ echo 'add test data for stconvert'
 curl -XPOST "http://${es_host}:9200/article/article/5" -d'{"title":"国际组织", "username": "charlie"}'
 echo
 curl -XPOST "http://${es_host}:9200/article/article/6" -d'{"title":"粵劇衝出國際聲援無處說話？"}'
+echo
+
+echo 'add test data for Chinese completion'
+curl -XPOST "http://${es_host}:9200/article/article/5" -d'{"title":"Chinese in English", "name": "潔平"}'
+echo
+curl -XPOST "http://${es_host}:9200/article/article/6" -d'{"title":"Chinese in English 2", "name": "姜姜"}'
+echo
+curl -XPOST "http://${es_host}:9200/article/article/6" -d'{"title":"Chinese in English 3", "name": "姜姜"}'
+echo
+curl -XPOST "http://${es_host}:9200/article/article/6" -d'{"title":"Chinese in English 4", "name": "姜姜"}'
+echo
+curl -XPOST "http://${es_host}:9200/article/article/6" -d'{"title":"Chinese in English 5", "name": "姜姜"}'
 echo
 
 sleep 3
@@ -257,6 +275,7 @@ curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 }
 '
 
+echo
 echo 'test pinyin and completion'
 curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 {
@@ -285,6 +304,36 @@ curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
 }
 '
 
+echo
+echo 'test chinese completion'
+curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'
+{
+    "suggest" : { 
+      "name_suggest" : {
+        "prefix": "潔",
+        "completion" : {
+           "field": "name"
+        }
+      }
+    },
+    "highlight" : {
+        "pre_tags" : ["<tag1>", "<tag2>"],
+        "post_tags" : ["</tag1>", "</tag2>"],
+        "fields" : {
+            "title" : {}
+        }
+    }
+}
+'
+
+echo 
+echo 'chinese completion pinyin analyze'
+curl -XGET "http://${es_host}:9200/article/_analyze?pretty"  -d'
+{
+  "text": ["潔平", "姜姜"],
+  "analyzer": "pinyin"
+}
+'
 
 echo
 curl -XPOST "http://${es_host}:9200/article/_search?pretty"  -d'

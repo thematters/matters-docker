@@ -5,9 +5,10 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    command: [ elasticsearch, -E, network.host=0.0.0.0, -E, discovery.zen.ping.unicast.hosts=elasticsearch, -E, discovery.zen.minimum_master_nodes=1 ]
     volumes:
       - esdata:/usr/share/elasticsearch/data
+    ports:
+      - '9300:9300'
     deploy:
       mode: 'global'
       endpoint_mode: dnsrr
@@ -15,7 +16,7 @@ services:
   nginx:
     image: 'nginx:1'
     ports:
-        - '9200:9200'
+      - '9200:9200'
     command: |
       /bin/bash -c "echo '
       server {

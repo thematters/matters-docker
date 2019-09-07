@@ -61,6 +61,12 @@
 * `docker stack deploy -c docker-compose.yml es`
 * `curl http://{{PRIVATE_IP}}:9200/_cluster/state?pretty` to check cluster status
 
+## Build docker image
+
+* Make sure the correct version of `elasticsearch-binary-vector-scoring-x.x.x.zip` is packaged from [fast-elasticsearch-vector-scoring repo](https://github.com/thematters/fast-elasticsearch-vector-scoring)
+* Copy the zip file into `plugins/` directory
+* Run `docker-compose build`
+
 ## Update ElasticSearch synonyms
 
 * Add to `synonyms/synonyms.txt` directly in the format of `川普,特朗普`

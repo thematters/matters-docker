@@ -7,6 +7,26 @@
   #   become_user: root
   #   raw: test -e /usr/bin/python || (sudo apt -y update && sudo apt install -y python-minimal)
 
+  - name: Make sure 'ubuntu' group does exist
+    group:
+      name: ubuntu
+      state: present
+
+  - name: Allow 'ubuntu' group to have passwordless sudo
+    become: yes
+    become_user: root
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%ubuntu'
+      line: '%ubuntu ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+
+  - name: Add sudoers to ubuntu group
+    become: yes
+    become_user: root
+    user: name=ubuntu groups=ubuntu append=yes state=present createhome=yes
+    
   - name: Add Docker GPG key
     become: yes
     become_user: root
@@ -45,6 +65,8 @@
       state: present
   
   - name: Copy files to the machines
+    become: yes
+    become_user: ubuntu
     synchronize: 
       src: '{{ playbook_dir }}/'
       dest: '{{ base_dir }}'

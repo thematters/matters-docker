@@ -75,3 +75,13 @@
         - "--exclude=.travis.yml"
         - "--exclude=.vagrant"
         - "--exclude=docker/.vagrant"
+
+  - name: Change file ownership
+    become: yes
+    become_user: root
+    file:
+      path: '{{ base_dir }}'
+      state: directory
+      recurse: yes
+      owner: ubuntu
+      group: ubuntu

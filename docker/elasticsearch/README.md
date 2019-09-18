@@ -26,7 +26,10 @@
 ## Start ElasticSearch cluster on local environment
 
 * `ssh master`
+* `docker network create --driver overlay --attachable elastic`
 * `cd ~/elasticsearch`
+* Get hostname from `cat /etc/hostname`
+* `export INITIAL_MASTER_NODES={{Hostname get above}}` 
 * `docker stack deploy -c docker-compose.yml es`
 * `curl http://192.168.50.10:9200/_cluster/state?pretty` to check cluster status
 
@@ -57,7 +60,10 @@
 ## Start ElasticSearch cluster on EC2 instances
 
 * ssh EC2 master node
+* `docker network create --driver overlay --attachable elastic`
 * `cd ~/elasticsearch`
+* Get hostname from `cat /etc/hostname`
+* `export INITIAL_MASTER_NODES={{Hostname get above}}` 
 * `docker stack deploy -c docker-compose.yml es`
 * `curl http://{{PRIVATE_IP}}:9200/_cluster/state?pretty` to check cluster status
 

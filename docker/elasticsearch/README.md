@@ -80,4 +80,7 @@
 * Run `docker push matterslab/elasticsearch:latest`
 * Redeploy the ElasticSearch cluster following the deployment instructions
 
+## Caveats
+
+* When the image is updated, the data in the volume may still be old version's data, so it is better to delete that docker volume every time the image is rebuilt.
 

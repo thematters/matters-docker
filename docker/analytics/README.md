@@ -9,7 +9,8 @@
 
 Run in a console:
 ```bash
-docker run --rm -p 8888:8888 -v YOUR_WORK_DIRECTORY:/home/jovyan/work  -e "AWS_ACCESS_KEY_ID=ABCDEFGHIJKLML" -e "AWS_SECRET_ACCESS_KEY=pq/wxyz1234wxyz1234wxyz1234" -t -i matterslab/analytics
+docker run --rm -p 8888:8888 -v YOUR_WORK_DIRECTORY:/home/jovyan/work  -e "creds_PGHOST=matters-analytics.cjzhbehzqlzi.ap-southeast-1.rds.amazonaws.com" -e "creds_PGDATABASE=matters_analytics"  -e "creds_PGUSER=analytics" -e "creds_PGPASSWORD=analyticsTYU123$"  -t -i matterslab/analytics
+
 ```
 Yes, the `/home/jovyan/work` path is fixed and just leave it as is. Replace `YOUR_WORK_DIRECTORY`, `ABCDEFGHIJKLML`, and `pq/wxyz1234wxyz1234wxyz1234` with your values.
 

@@ -83,4 +83,4 @@
 ## Caveats
 
 * When the image is updated, the data in the volume may still be old version's data, so it is better to delete that docker volume every time the image is rebuilt.
-
+* When disk space is full, try to remove and recreate the stack

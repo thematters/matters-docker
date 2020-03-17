@@ -1,4 +1,5 @@
-es_host='54.254.193.99'
+# es_host='54.254.193.99'
+es_host='10.10.1.108'
 
 # Check if all indices contents embedding_vector field
 # echo 

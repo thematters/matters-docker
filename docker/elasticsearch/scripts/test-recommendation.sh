@@ -31,7 +31,7 @@ curl -XPOST -H "Content-Type: application/json" "http://${es_host}:9200/article/
           "params": {
             "cosine": true,
             "field": "embedding_vector",
-            "encoded_vector": "vOeTZDzoROu8rfyDOtbmJLx+eyO7N6HSPQlhPjyASk48VtvLPPH5frxJtWO9DLElPLqwb7wczpu83TU0PSVgsLyKo6M8OOfCuoWkN70CwFQ="
+            "encoded_vector": "PRrWGD3mfrq9Sum5PMhFqLyvueG9Rjo4POZSVz0dNW26gm9rvRolkb3aW+O9WFDdPUm89L3MoMq9yWxzvfT/WL20Grk98iuKvR0sxr0ajkI="
           }
         }
       }

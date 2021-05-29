@@ -1,5 +1,5 @@
 # es_host='192.168.99.101'
-es_host='192.168.99.102'
+es_host='127.0.0.1'
 
 echo 'create index and mappings'
 curl -XPUT -H "Content-Type:application/json" "http://${es_host}:9200/article" -d' 
@@ -101,8 +101,8 @@ curl -XPUT -H "Content-Type:application/json" "http://${es_host}:9200/article" -
                   }
               },
               "embedding_vector": {
-                  "type": "binary",
-                  "doc_values": true
+                  "type": "dense_vector",
+                  "dims": 20
               },
               "factor": { "type": "text" }
           }

@@ -1,5 +1,9 @@
 # Setup guide
 
+## Start ElasticSearch single node on local environment
+
+- `docker compose -f docker-compose.local.yml` up
+
 ## Setup docker swarm on local environment
 
 - make sure you `Ansible`, `Vagrant` and `Virtualbox` installed

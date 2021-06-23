@@ -1,0 +1,21 @@
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "region": "ap-southeast-1",
+    "run_as_user": "cwagent"
+  },
+  "metrics": {
+    "append_dimensions": {
+      "InstanceId": "${aws:InstanceId}"
+    },
+    "metrics_collected": {
+      "disk": {
+        "measurement": [
+            "used_percent"
+        ],
+        "metrics_collection_interval": 60,
+        "resources": ["/"]
+      }
+    }
+  }
+}

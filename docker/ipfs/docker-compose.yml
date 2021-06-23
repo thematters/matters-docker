@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
   # cluster:
@@ -20,4 +20,4 @@ services:
       - 80:8080
     volumes:
       - /data/ipfs:/data/ipfs
-    restart: always
+    restart: unless-stopped

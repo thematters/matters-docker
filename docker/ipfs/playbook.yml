@@ -1,8 +1,15 @@
 - hosts: all
   vars:
     base_dir: "/home/ubuntu/ipfs"
-  tasks:
+    docker_compose_version: "1.29.2"
+  roles: 
+    - role: christiangda.amazon_cloudwatch_agent
+      vars:
+        ansible_become: yes
+        cwa_agent_mode: "ec2"
+        cwa_conf_json_file_content: "{{ lookup('file', 'cwagent/CloudWatch.json') | from_json }}"
 
+  tasks:
   - name: Add Docker GPG key
     become: yes
     become_user: root
@@ -14,14 +21,31 @@
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
 
+  - name: Upgrade all apt packages
+    become: yes
+    become_user: root
+    apt: upgrade=dist
+
   - name: Install list of packages
     become: yes
     become_user: root
     apt:
-      name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'docker-ce', 'docker-compose', 'python3', 'python3-pip']
+      name: "{{ packages }}"
       state: present
       update_cache: yes
-  
+    vars:
+      packages:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - python3
+        - python3-pip
+        - ec2-instance-connect
+
   - name: Add ubuntu to docker group
     become: yes
     become_user: root
@@ -31,7 +55,7 @@
       append: true
     with_items:
       - ubuntu
-  
+
   - name: Copy files to the machines
     synchronize: 
       src: '{{ playbook_dir }}/'
@@ -43,6 +67,33 @@
         - '--exclude=docker/.vagrant'
         - '--exclude=venv'
         - '--exclude=logs'
+
+  - name: Download docker-compose {{ docker_compose_version }}
+    get_url:
+      url : https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+      dest: ~/docker-compose
+      mode: '+x'
+
+  - name: Check docker-compose exists
+    stat: path=~/docker-compose
+    register: docker_compose
+
+  - name: Move docker-compose to /usr/local/bin/docker-compose
+    command: sudo mv ~/docker-compose /usr/local/bin/docker-compose
+    when: docker_compose.stat.exists
+
+  - name: Install IPFS docker-compose service to systemd
+    become: yes
+    become_user: root
+    template: src=docker-compose-ipfs.j2 dest=/etc/systemd/system/docker-compose-ipfs.service
+
+  - name: Enable IPFS docker-compose service 
+    become: yes
+    systemd: enabled=yes name=docker-compose-ipfs masked=no
+
+  - name: Start IPFS docker-compose service 
+    become: yes
+    systemd: state=started name=docker-compose-ipfs daemon_reload=yes
 
 # - hosts: masters
 #   vars:

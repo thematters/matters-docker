@@ -1,0 +1,15 @@
+# let the AMI to run IPFS node once a new EC2 instance is launched
+[Unit]
+Description=Docker Compose Application Service for IPFS
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory=/home/ubuntu/ipfs
+ExecStart=/usr/local/bin/docker-compose up -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose down
+
+[Install]
+WantedBy=multi-user.target

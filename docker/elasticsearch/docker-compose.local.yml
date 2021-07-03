@@ -1,0 +1,13 @@
+version: '2.2'
+
+services:
+  elasticsearch:
+    image: 'matterslab/elasticsearch:latest'
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    environment:
+      - discovery.type=single-node
+    ports:
+      - '9200:9200'
+      - '9300:9300'

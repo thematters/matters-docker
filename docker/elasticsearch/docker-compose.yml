@@ -13,6 +13,7 @@ services:
       - discovery.seed_hosts=elasticsearch
       - cluster.initial_master_nodes=${INITIAL_MASTER_NODES:-node1}
       - cluster.name=docker-cluster
+      - xpack.security.enabled=false
       - network.host=0.0.0.0
     networks:
       - elastic

@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.2.3
 
 # ========= install elasticsearch ==========
 ENV BASE_PATH="/usr/share/elasticsearch"
@@ -11,18 +11,18 @@ ENV PATH="/usr/share/elasticsearch/bin:${PATH}"
 # RUN elasticsearch-plugin install $EVS_PLUGIN_PATH
 
 # ========= install elasticsearch-analysis-ik plugin ===========
-RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.17.3/elasticsearch-analysis-ik-7.17.3.zip
-RUN unzip elasticsearch-analysis-ik-7.17.3.zip -d elasticsearch-analysis-ik
+RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v8.2.3/elasticsearch-analysis-ik-8.2.3.zip
+RUN unzip elasticsearch-analysis-ik-8.2.3.zip -d elasticsearch-analysis-ik
 RUN mv elasticsearch-analysis-ik $BASE_PATH/plugins
 
 # ========= install elasticsearch-analysis-stconvert
-RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-stconvert/releases/download/v7.17.3/elasticsearch-analysis-stconvert-7.17.3.zip
-RUN unzip elasticsearch-analysis-stconvert-7.17.3.zip -d elasticsearch-analysis-stconvert
+RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-stconvert/releases/download/v8.2.3/elasticsearch-analysis-stconvert-8.2.3.zip
+RUN unzip elasticsearch-analysis-stconvert-8.2.3.zip -d elasticsearch-analysis-stconvert
 RUN mv elasticsearch-analysis-stconvert $BASE_PATH/plugins
 
 # ========= install elasticsearch-analysis-pinyin
-RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v7.17.3/elasticsearch-analysis-pinyin-7.17.3.zip
-RUN unzip elasticsearch-analysis-pinyin-7.17.3.zip -d elasticsearch-analysis-pinyin
+RUN curl -L -O https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v8.2.3/elasticsearch-analysis-pinyin-8.2.3.zip
+RUN unzip elasticsearch-analysis-pinyin-8.2.3.zip -d elasticsearch-analysis-pinyin
 RUN mv elasticsearch-analysis-pinyin $BASE_PATH/plugins
 
 # ========= copy synonyms.txt ==============

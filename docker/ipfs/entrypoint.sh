@@ -1,8 +1,8 @@
 echo "starting docker.."
 /usr/local/bin/docker-compose up -d --remove-orphans
 
-echo "wait for 2s"
-sleep 2s
+echo "wait for 30s"
+sleep 30s
 
 echo "add bootstrap node"
 /usr/local/bin/docker-compose exec -T daemon ipfs bootstrap list

@@ -1,0 +1,9 @@
+
+CREATE EXTENSION pg_trgm;
+CREATE EXTENSION zhparser;
+CREATE EXTENSION pg_bigm;
+
+CREATE TEXT SEARCH CONFIGURATION chinese_zh (PARSER = zhparser);
+
+ALTER TEXT SEARCH CONFIGURATION chinese_zh ADD MAPPING FOR n,v,a,i,e,l,t WITH simple;
+

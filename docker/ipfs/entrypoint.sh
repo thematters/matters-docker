@@ -12,5 +12,5 @@ sleep 5s
 
 echo "peering with content providers"
 /usr/local/bin/docker-compose down
-patch /data/ipfs/config config.patch
+# patch /data/ipfs/config config.patch
 /usr/local/bin/docker-compose up -d --remove-orphans

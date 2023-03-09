@@ -1,6 +1,18 @@
---- config	2022-10-12 10:52:26.000000000 +0800
-+++ config2	2022-10-12 10:51:20.000000000 +0800
-@@ -117,7 +117,80 @@
+@@ -102,7 +102,12 @@
+     "PrivKey": "CAESQACJ2Tp3MStzejv4gEW3p2g10ErVXO+2EMbJLY6miWjwafRPdz4lVElbj/pVQVl5Umra7nCxgtKrmnxeRALzZcM="
+   },
+   "Internal": {},
+-  "Ipns": null,
++  "Ipns": {
++    "RecordLifetime": "7200h",
++    "RepublishPeriod": "",
++    "ResolveCacheSize": 12800,
++    "UsePubSub": true
++  },
+   "Migration": {
+     "DownloadSources": [],
+     "Keep": ""
+@@ -113,7 +118,80 @@
      "IPNS": "/ipns"
    },
    "Peering": {

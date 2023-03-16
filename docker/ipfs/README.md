@@ -2,14 +2,21 @@
 
 ## Setup
 
+### Setup EC2 instances
+
 - create at least 2 ubuntu EC2 instances
 - `sudo apt install python-minimal` on the instances
+
+### Setup Ansible
+
+- `$ pip3 install --user ansible`
+- `$ ansible-galaxy install christiangda.amazon_cloudwatch_agent`
 - copy `hosts.example` to `hosts`, and update hosts information according to the instances
 - copy `.env.example` to `.env`, replace `CLUSTER_SECRET` with the output from the following commend:
   - `od -vN 32 -An -tx1 /dev/urandom | tr -d ' \n'; echo`
-- run `ansible-playbook -i hosts playbook.yml` to install docker and upload files to EC2 instances
+- run `ansible-playbook -u ubuntu -i hosts playbook.yml` to install docker and upload files to EC2 instances
 
-## To upgrade IPFS version
+## Upgrade IPFS version
 
 - SSH into the IPFS node server
 - change the line in docker-compose file: `image: ipfs/go-ipfs:v0.14.0`

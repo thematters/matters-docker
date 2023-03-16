@@ -93,7 +93,7 @@
 
   - name: Start IPFS docker-compose service 
     become: yes
-    systemd: state=started name=docker-compose-ipfs daemon_reload=yes
+    systemd: state=restarted name=docker-compose-ipfs daemon_reload=yes
 
 # - hosts: masters
 #   vars:

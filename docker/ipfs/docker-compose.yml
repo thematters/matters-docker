@@ -14,6 +14,7 @@ services:
 
   daemon:
     image: ipfs/go-ipfs:v0.14.0
+    container_name: ipfs
     ports:
       - 4001:4001
       - 5001:5001
@@ -21,3 +22,10 @@ services:
     volumes:
       - /data/ipfs:/data/ipfs
     restart: unless-stopped
+    logging:
+      driver: journald
+      options:
+         mode: non-blocking
+         max-buffer-size: 4m
+    environment:
+      - IPFS_LOGGING=info
